@@ -18,6 +18,8 @@ public class TicTacToe {
         for (int i = 0; i < 9; i++) {
             buttons[i] = new JButton();
             buttons[i].setFont(new Font("Comic San", Font.BOLD, 200));
+            buttons[i].setBackground(Color.BLACK);
+            buttons[i].setForeground(Color.WHITE);
             int finalI = i;
             buttons[i].addActionListener(e -> {
                 list.set(finalI, turn[0] ? 1 : 2);
