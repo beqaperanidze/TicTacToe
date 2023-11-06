@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class TicTacToe {
@@ -31,7 +32,7 @@ public class TicTacToe {
                 turn[0] = !turn[0];
                 buttons[finalI].setEnabled(false);
                 try {
-                    checkForWin(list, frame);
+                    checkForWin(list, frame, turn[0]);
                 } catch (InterruptedException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -41,22 +42,64 @@ public class TicTacToe {
 
         frame.setLayout(new GridLayout(3, 3));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(900, 900);
+        frame.setSize(1080, 1080);
         frame.setVisible(true);
     }
 
-    public void checkForWin(List<Integer> list, JFrame frame) throws InterruptedException {
-        if ((list.get(0) == list.get(1) && list.get(1) == list.get(2)) ||
-                (list.get(3) == list.get(4) && list.get(4) == list.get(5)) ||
-                list.get(6) == list.get(7) && list.get(7) == list.get(8) ||
-                list.get(0) == list.get(3) && list.get(3) == list.get(6) ||
-                list.get(1) == list.get(4) && list.get(4) == list.get(7) ||
-                list.get(2) == list.get(5) && list.get(5) == list.get(8) ||
-                list.get(0) == list.get(4) && list.get(4) == list.get(8) ||
-                list.get(2) == list.get(4) && list.get(4) == list.get(6)) {
-            TimeUnit.SECONDS.sleep(2);
-            frame.setVisible(false);
-            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+    public void checkForWin(List<Integer> list, JFrame frame, boolean x) throws InterruptedException {
+        int counter = 0;
+        for(Integer num : list){
+            if (num == 1 || num == 2)
+                counter++;
         }
+
+        if ((Objects.equals(list.get(0), list.get(1)) && Objects.equals(list.get(1), list.get(2))) ||
+                (Objects.equals(list.get(3), list.get(4)) && Objects.equals(list.get(4), list.get(5))) ||
+                Objects.equals(list.get(6), list.get(7)) && Objects.equals(list.get(7), list.get(8)) ||
+                Objects.equals(list.get(0), list.get(3)) && Objects.equals(list.get(3), list.get(6)) ||
+                Objects.equals(list.get(1), list.get(4)) && Objects.equals(list.get(4), list.get(7)) ||
+                Objects.equals(list.get(2), list.get(5)) && Objects.equals(list.get(5), list.get(8)) ||
+                Objects.equals(list.get(0), list.get(4)) && Objects.equals(list.get(4), list.get(8)) ||
+                Objects.equals(list.get(2), list.get(4)) && Objects.equals(list.get(4), list.get(6))) {
+            frame.setVisible(false);
+            finishScreen(x);
+        }
+        else if(counter == 9){
+            draw();
+        }
+    }
+    public static void finishScreen(boolean x){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1920, 1080);
+        JLabel label = new JLabel();
+        label.setFont(new Font("Comic San", Font.BOLD, 200));
+        label.setHorizontalTextPosition(JLabel.CENTER);
+        label.setVerticalTextPosition(JLabel.TOP);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        if(!x)
+        label.setText("X Won!");
+        else label.setText("O Won!");
+        ImageIcon icon = new ImageIcon("wow.jpg");
+        label.setIcon(icon);
+        frame.add(label);
+        frame.setVisible(true);
+    }
+    public static void draw(){
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1920, 1080);
+        JLabel label = new JLabel();
+        label.setFont(new Font("Comic San", Font.BOLD, 200));
+        label.setHorizontalTextPosition(JLabel.CENTER);
+        label.setVerticalTextPosition(JLabel.TOP);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setText("It's a draw");
+        ImageIcon icon = new ImageIcon("wow.jpg");
+        label.setIcon(icon);
+        frame.add(label);
+        frame.setVisible(true);
     }
 }
